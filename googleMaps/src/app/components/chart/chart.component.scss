@@ -107,8 +107,12 @@
   }
 
   &__slider {
-    margin-top: 50px;
     position: relative;
+    width: 50%;
+    max-width: 500px;
+    height: 100px;
+    margin-top: 200px;
+    background-color: red;
   }
 }
 
@@ -125,7 +129,7 @@
     top: 0;
     bottom: 0;
     border-radius: 5px;
-    background: red;
+    background-color: pink;
   }
 
   .range {
@@ -136,7 +140,7 @@
     top: 0;
     bottom: 0;
     border-radius: 5px;
-    background-color: green;
+    //background-color: green;
   }
 
   .thumb {
@@ -144,32 +148,44 @@
     z-index: 3;
     width: 30px;
     height: 30px;
-    background-color: black;
     border-radius: 50%;
+    background-color: aqua;
+    cursor: pointer;
 
     &--left {
-      left: 25%;
-      transform: translate(-15px, -10px);
+      background-color: purple;
+      //left: 25%;
+      transform: translate(-7px, -8px);
     }
 
     &--right {
-      right: 25%;
-      transform: translate(15px, -10px);
+      background-color: cadetblue;
+      //right: 25%;
+      right: 0;
+      transform: translate(7px, -8px);
     }
   }
 
-  //&__input {
-    //position: absolute;
-    //z-index: 2;
-    //height: 10px;
-    //width: 100%;
-    //
-    //&--left {
-      //top: -100px;
-    //}
-    //
-    //&--right {
-    //  top: -50px;
-    //}
-  //}
+  &__input {
+    position: absolute;
+    pointer-events: none;
+    -webkit-appearance: none;
+    z-index: 2;
+    height: 10px;
+    width: 100%;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    //top: -100px;
+
+    &::-webkit-slider-thumb {
+      pointer-events: all;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 0 none;
+      background-color: transparent;
+      -webkit-appearance: none;
+    }
+  }
 }
