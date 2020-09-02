@@ -7,6 +7,9 @@ export interface ChartEvent {
   start_time: Moment,
   end_time: Moment,
   spent_minutes?: number,
-  minutes_from_day_start?: number,
+  start?: number,
   row_number?: number,
+  duration?: any,
+  init_duration?: any
+  init_start?: any
 }

@@ -18,6 +18,7 @@ export class EventsService {
       longitude: '',
       start_time: moment(this.startOfTheDay),
       end_time: moment(this.startOfTheDay.add(130, 'minutes')),
+      duration: 312.5
     },
     {
       type: 'OFF',
@@ -25,6 +26,7 @@ export class EventsService {
       longitude: '',
       start_time: moment(this.startOfTheDay),
       end_time: moment(this.startOfTheDay.add(480, 'minutes')),
+      duration: 312.5
     },
     {
       type: 'D',
@@ -32,6 +34,7 @@ export class EventsService {
       longitude: '',
       start_time: moment(this.startOfTheDay),
       end_time: moment(this.startOfTheDay.add(154, 'minutes')),
+      duration: 312.5
     },
     {
       type: 'SB',
@@ -39,6 +42,7 @@ export class EventsService {
       longitude: '',
       start_time: moment(this.startOfTheDay),
       end_time: moment(this.startOfTheDay.add(160, 'minutes')),
+      duration: 312.5
     },
   ];
   constructor() {

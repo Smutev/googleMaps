@@ -168,24 +168,27 @@
 
   &__input {
     position: absolute;
-    pointer-events: none;
-    -webkit-appearance: none;
+    //pointer-events: none;
+    //-webkit-appearance: none;
     z-index: 2;
     height: 10px;
     width: 100%;
-    background-color: transparent;
+    //background-color: transparent;
     cursor: pointer;
-    outline: none;
-    //top: -100px;
+    //outline: none;
+    top: -100px;
 
     &::-webkit-slider-thumb {
-      pointer-events: all;
+      //pointer-events: all;
       width: 30px;
       height: 30px;
       border-radius: 50%;
       border: 0 none;
       background-color: transparent;
-      -webkit-appearance: none;
+      //-webkit-appearance: none;
+    }
+    &--right {
+      top: -50px;
     }
   }
 }

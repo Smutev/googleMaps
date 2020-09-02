@@ -20,10 +20,8 @@
         class="chart__cell-statistic-element"
         *ngIf="chartEvent.type === row.value"
         [style.background]="row.color"
-        [style.width.px]="(cellWidthInPx * chartEvent.spent_minutes) / 60"
-        [style.left.px]="
-          (cellWidthInPx * chartEvent.minutes_from_day_start) / 60
-        "
+        [style.width.px]="chartEvent.duration"
+        [style.left.px]="chartEvent.start"
       >
         <div
           class="chart__cell-statistic-connector"
@@ -74,21 +72,21 @@
         type="range"
         class="slider__input slider__input--left"
         #inputLeft
-        min="0"
-        [max]="copiedCurrentEvent.spent_minutes"
+        [min]="currentEvent.init_start"
+        [max]="currentEvent.init_start + currentEvent.init_duration"
         step="1"
-        value="0"
-        (change)="changeRange($event)"
+        [value]="currentEvent.init_start"
+        (input)="changeRange($event)"
       />
       <input
         type="range"
         class="slider__input slider__input--right"
         #inputRight
-        min="0"
-        [max]="copiedCurrentEvent.spent_minutes"
+        [min]="currentEvent.init_start"
+        [max]="currentEvent.init_start + currentEvent.init_duration"
         step="1"
-        [value]="copiedCurrentEvent.spent_minutes"
-        (change)="changeRange($event, true)"
+        [value]="currentEvent.init_start + currentEvent.init_duration"
+        (input)="changeRange($event, true)"
       />
 
       <div class="slider">
@@ -100,7 +98,7 @@
     </div>
   </div>
   <p *ngIf="currentEvent">
-    {{ currentEvent.start_time.toDate()}}
+    {{ currentEvent.start_time.toDate() }}
   </p>
   <p *ngIf="currentEvent">
     {{ currentEvent.end_time.toDate() }}
