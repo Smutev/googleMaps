@@ -14,7 +14,7 @@
     <div
       class="chart__cell-statistic-line"
       *ngFor="let chartEvent of chartEvents; let i = index"
-      (click)="showAdditionalInformation(chartEvent, i)"
+      (click)="showAdditionalInformation(chartEvent)"
     >
       <div
         class="chart__cell-statistic-element"
@@ -72,36 +72,40 @@
         type="range"
         class="slider__input slider__input--left"
         #inputLeft
+        [style.width.px]="currentEvent.init_duration"
+        [style.left.px]="currentEvent.init_start"
         [min]="currentEvent.init_start"
         [max]="currentEvent.init_start + currentEvent.init_duration"
         step="1"
-        [value]="currentEvent.init_start"
+        [value]="currentEvent.start"
         (input)="changeRange($event)"
       />
       <input
         type="range"
         class="slider__input slider__input--right"
         #inputRight
+        [style.width.px]="currentEvent.init_duration"
+        [style.left.px]="currentEvent.init_start"
         [min]="currentEvent.init_start"
         [max]="currentEvent.init_start + currentEvent.init_duration"
         step="1"
-        [value]="currentEvent.init_start + currentEvent.init_duration"
+        [value]="currentEvent.start + currentEvent.duration"
         (input)="changeRange($event, true)"
       />
-
-      <div class="slider">
-        <div class="track"></div>
-        <div class="range" #range></div>
-        <div class="thumb thumb--left" #thumbLeft></div>
-        <div class="thumb thumb--right" #thumbRight></div>
-      </div>
+      <div
+        class="slider"
+        [style.width.px]="currentEvent.init_duration"
+        [style.left.px]="currentEvent.init_start"
+      ></div>
     </div>
   </div>
   <p *ngIf="currentEvent">
-    {{ currentEvent.start_time.toDate() }}
+    Start:
+    {{ currentEvent.start_time.toDate() | date: 'HH:mm' }}
   </p>
   <p *ngIf="currentEvent">
-    {{ currentEvent.end_time.toDate() }}
+    End:
+    {{ currentEvent.end_time.toDate() | date: 'HH:mm'  }}
   </p>
-  <button (click)="save()">Save changes</button>
+  <button (click)="saveNewValues()">Save changes</button>
 </div>

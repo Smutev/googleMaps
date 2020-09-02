@@ -4,12 +4,18 @@ export interface ChartEvent {
   type: string,
   latitude: string,
   longitude: string,
-  start_time: Moment,
-  end_time: Moment,
-  spent_minutes?: number,
+  duration: number,
   start?: number,
+  init_duration?: number
+  init_start?: number
+  start_time?: Moment,
+  end_time?: Moment,
   row_number?: number,
-  duration?: any,
-  init_duration?: any
-  init_start?: any
+}
+
+export interface Row {
+  name: string,
+  value: string,
+  cell_reverse: boolean,
+  color: string,
 }

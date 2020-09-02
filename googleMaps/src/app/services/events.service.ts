@@ -16,32 +16,32 @@ export class EventsService {
       type: 'ON',
       latitude: '',
       longitude: '',
-      start_time: moment(this.startOfTheDay),
-      end_time: moment(this.startOfTheDay.add(130, 'minutes')),
+      // start_time: moment(this.startOfTheDay),
+      // end_time: moment(this.startOfTheDay.add(130, 'minutes')),
       duration: 312.5
     },
     {
       type: 'OFF',
       latitude: '',
       longitude: '',
-      start_time: moment(this.startOfTheDay),
-      end_time: moment(this.startOfTheDay.add(480, 'minutes')),
+      // start_time: moment(this.startOfTheDay),
+      // end_time: moment(this.startOfTheDay.add(480, 'minutes')),
       duration: 312.5
     },
     {
       type: 'D',
       latitude: '',
       longitude: '',
-      start_time: moment(this.startOfTheDay),
-      end_time: moment(this.startOfTheDay.add(154, 'minutes')),
+      // start_time: moment(this.startOfTheDay),
+      // end_time: moment(this.startOfTheDay.add(154, 'minutes')),
       duration: 312.5
     },
     {
       type: 'SB',
       latitude: '',
       longitude: '',
-      start_time: moment(this.startOfTheDay),
-      end_time: moment(this.startOfTheDay.add(160, 'minutes')),
+      // start_time: moment(this.startOfTheDay),
+      // end_time: moment(this.startOfTheDay.add(160, 'minutes')),
       duration: 312.5
     },
   ];

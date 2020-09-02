@@ -1,15 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import * as moment from 'moment';
 import { EventsService } from '../../services/events.service';
-import { ChartEvent } from '../../shared/interfaces';
-import cloneDeep from 'lodash.clonedeep';
-import {log} from "util";
+import { ChartEvent, Row } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-chart',
@@ -18,32 +10,15 @@ import {log} from "util";
 })
 export class ChartComponent implements OnInit {
   @Output() showInfo = new EventEmitter<any>();
-  @ViewChild('inputLeft') public inputLeft;
-  @ViewChild('thumbLeft') public thumbLeft;
-  @ViewChild('inputRight') public inputRight;
-  @ViewChild('thumbRight') public thumbRight;
-  @ViewChild('range') public range;
 
-  public chart = [];
-  public startOfTheDay = moment()
-    .utc()
-    .local()
-    .startOf('day');
-
-  public copiedCurrentEvent: ChartEvent;
   public currentEvent: ChartEvent;
-  public previousEvent: ChartEvent;
-  public nextEvent: ChartEvent;
-  public copiedNextEvent: ChartEvent;
-  public copiedPreviousEvent: ChartEvent;
+  public chartEvents: ChartEvent[];
+  public timeline = [];
 
-  // public thumbLeft;
-  // public thumbRight;
-  // public range;
-
-  public cellWidthInPx = 50;
+  public cellWidthInPx: number = 50;
   public Math: any;
-  public rows = [
+
+  public rows: Row[] = [
     {
       name: 'Off Duty',
       value: 'OFF',
@@ -70,9 +45,6 @@ export class ChartComponent implements OnInit {
     },
   ];
 
-  public timeline = [];
-  public chartEvents: ChartEvent[];
-
   constructor(private eventsService: EventsService) {
     this.Math = Math;
   }
@@ -98,81 +70,81 @@ export class ChartComponent implements OnInit {
     this.eventsService.getEvents().subscribe((response: ChartEvent[]) => {
       if (response) {
         this.chartEvents = response.map((chartEvent, i) => {
-          // chartEvent.spent_minutes = chartEvent.end_time.diff(
-          //   chartEvent.start_time,
-          //   'minutes',
-          // );
-          // chartEvent.minutes_from_day_start = chartEvent.start_time.diff(
-          //   this.startOfTheDay,
-          //   'minutes',
-          // );
-          chartEvent.init_duration = chartEvent.duration;
           if (i === 0) {
             chartEvent.start = 0;
           } else {
             chartEvent.start = response[i - 1].start + response[i - 1].duration;
           }
+
+          chartEvent.init_duration = chartEvent.duration;
           chartEvent.init_start = chartEvent.start;
+
           chartEvent.row_number = this.rows.findIndex(
             (row) => row.value === chartEvent.type,
           );
+
           return chartEvent;
         });
-        console.log(this.chartEvents);
       }
     });
   }
 
-  public showAdditionalInformation(
-    chartEvent: ChartEvent,
-    index: number,
-  ): void {
+  public showAdditionalInformation(chartEvent: ChartEvent): void {
+    if (this.currentEvent) {
+      this.currentEvent.start = this.currentEvent.init_start;
+      this.currentEvent.duration = this.currentEvent.init_duration;
+    }
+
     this.currentEvent = chartEvent;
-    this.copiedCurrentEvent = cloneDeep(this.currentEvent);
-
-    if (index !== this.chartEvents.length - 1) {
-      this.nextEvent = this.chartEvents[index + 1];
-      this.copiedNextEvent = cloneDeep(this.nextEvent);
-    }
-
-    if (index !== 0) {
-      this.previousEvent = this.chartEvents[index - 1];
-      this.copiedPreviousEvent = cloneDeep(this.previousEvent);
-    }
-
+    this.setTime();
     // TODO Здесь будет емит события на показ нижней части
     // this.showInfo.emit(chartEvent)
   }
-
-  public save(): void {}
 
   public changeRange(e, isMax?: boolean): void {
     if (!this.currentEvent) {
       return;
     }
 
-    const value = +e.target.value;
-    const difference = this.currentEvent.spent_minutes - value;
+    const value = parseInt(e.target.value);
 
     if (isMax) {
-      this.currentEvent.duration = value - this.currentEvent.start;
+      if (
+        this.currentEvent.duration > 1 ||
+        (this.currentEvent.duration <= 1 && value > this.currentEvent.start)
+      ) {
+        this.currentEvent.duration = value - this.currentEvent.start;
+      } else {
+        this.currentEvent.start > this.currentEvent.init_start
+          ? this.currentEvent.start--
+          : this.currentEvent.duration++;
+      }
     } else {
+      if (this.currentEvent.duration <= 1 && value > this.currentEvent.start) {
+        this.currentEvent.duration = this.currentEvent.start - value;
+      }
+
       this.currentEvent.duration += this.currentEvent.start - value;
       this.currentEvent.start = value;
-      // let n = this.currentEvent.start - value;
-      // this.currentEvent.start = value;
-      //   this.currentEvent.duration += n
     }
+
+    this.setTime();
   }
 
-  public recountTimeSpaces(chartEvent: ChartEvent) {
-    chartEvent.spent_minutes = chartEvent.end_time.diff(
-      chartEvent.start_time,
-      'minutes',
-    );
-    chartEvent.start = chartEvent.start_time.diff(
-      this.startOfTheDay,
-      'minutes',
-    );
+  private setTime(): void {
+    if (!this.currentEvent) {
+      return;
+    }
+
+    this.currentEvent.start_time = moment()
+      .startOf('day')
+      .add(this.currentEvent.start, 'minutes');
+    this.currentEvent.end_time = moment()
+      .startOf('day')
+      .add(this.currentEvent.start + this.currentEvent.duration, 'minutes');
+  }
+
+  public saveNewValues(): void {
+    this.currentEvent = null;
   }
 }
