@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import { EventsService } from '../../services/events.service';
 import { ChartEvent } from '../../shared/interfaces';
 import cloneDeep from 'lodash.clonedeep';
+import {log} from "util";
 
 @Component({
   selector: 'app-chart',
@@ -156,9 +157,11 @@ export class ChartComponent implements OnInit {
     if (isMax) {
       this.currentEvent.duration = value - this.currentEvent.start;
     } else {
+      this.currentEvent.duration += this.currentEvent.start - value;
       this.currentEvent.start = value;
-      this.currentEvent.duration =
-        this.currentEvent.start - (value - this.currentEvent.start);
+      // let n = this.currentEvent.start - value;
+      // this.currentEvent.start = value;
+      //   this.currentEvent.duration += n
     }
   }
 
