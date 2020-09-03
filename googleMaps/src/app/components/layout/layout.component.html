@@ -1,1 +1,2 @@
-<app-chart></app-chart>
+<app-chart (showInfo)="toggleMap($event)"></app-chart>
+<app-map *ngIf="chartEvent" [chartEvent]="chartEvent"></app-map>

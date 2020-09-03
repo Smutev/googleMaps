@@ -97,8 +97,8 @@ export class ChartComponent implements OnInit {
 
     this.currentEvent = chartEvent;
     this.setTime();
-    // TODO Здесь будет емит события на показ нижней части
-    // this.showInfo.emit(chartEvent)
+
+    this.showInfo.emit(this.currentEvent);
   }
 
   public changeRange(e, isMax?: boolean): void {
@@ -146,5 +146,6 @@ export class ChartComponent implements OnInit {
 
   public saveNewValues(): void {
     this.currentEvent = null;
+    this.showInfo.emit(this.currentEvent);
   }
 }

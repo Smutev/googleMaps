@@ -2,8 +2,14 @@ import {Moment} from "moment";
 
 export interface ChartEvent {
   type: string,
-  latitude: string,
-  longitude: string,
+  latitude: {
+    start: number,
+    end: number
+  },
+  longitude: {
+    start: number,
+    end: number
+  },
   duration: number,
   start?: number,
   init_duration?: number

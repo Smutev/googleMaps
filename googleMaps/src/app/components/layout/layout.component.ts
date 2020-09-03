@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ChartEvent } from '../../shared/interfaces';
 
 @Component({
   selector: 'app-layout',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
+  public chartEvent: ChartEvent;
+
   constructor() {}
+
+  public toggleMap(chartEvent): void {
+    this.chartEvent = chartEvent;
+  }
 }

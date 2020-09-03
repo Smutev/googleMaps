@@ -71,7 +71,6 @@
       <input
         type="range"
         class="slider__input slider__input--left"
-        #inputLeft
         [style.width.px]="currentEvent.init_duration"
         [style.left.px]="currentEvent.init_start"
         [min]="currentEvent.init_start"
@@ -83,7 +82,6 @@
       <input
         type="range"
         class="slider__input slider__input--right"
-        #inputRight
         [style.width.px]="currentEvent.init_duration"
         [style.left.px]="currentEvent.init_start"
         [min]="currentEvent.init_start"
@@ -99,13 +97,16 @@
       ></div>
     </div>
   </div>
+  <p *ngIf="currentEvent" [style.color]="rows[currentEvent.row_number].color">
+    {{ rows[currentEvent.row_number].name }}
+  </p>
   <p *ngIf="currentEvent">
     Start:
     {{ currentEvent.start_time.toDate() | date: 'HH:mm' }}
   </p>
   <p *ngIf="currentEvent">
     End:
-    {{ currentEvent.end_time.toDate() | date: 'HH:mm'  }}
+    {{ currentEvent.end_time.toDate() | date: 'HH:mm' }}
   </p>
   <button (click)="saveNewValues()">Save changes</button>
 </div>

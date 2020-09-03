@@ -1,0 +1,12 @@
+@import '../../../app/shared/mixins';
+
+.map__container {
+  @include flex();
+  width: 100%;
+  margin-top: 50px;
+}
+
+#map {
+  width: 800px;
+  height: 800px;
+}
